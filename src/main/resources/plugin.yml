@@ -1,0 +1,5 @@
+name: AkKenVyu
+version: '${project.version}'
+main: io.github.seriousguy888.akkenvyu.AkKenVyu
+api-version: '1.20'
+authors: [SeriousGuy888]
