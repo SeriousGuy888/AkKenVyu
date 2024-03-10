@@ -33,7 +33,8 @@ public class GetResourcePackCommand implements CommandExecutor {
             return false;
         }
 
-        player.setResourcePack(dlUrl, null, "Applying latest resource pack...", false);
+        byte[] hash = plugin.getGithubFetcher().getSha1Hash();
+        player.setResourcePack(dlUrl, hash, "Applying latest resource pack...", false);
 
         return false;
     }
