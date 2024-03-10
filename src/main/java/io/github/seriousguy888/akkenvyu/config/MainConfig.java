@@ -16,4 +16,8 @@ public class MainConfig extends ConfigReader {
     public String getGithubFileName() {
         return config.getString("github.file_name");
     }
+
+    public int getGithubPollingIntervalMinutes() {
+        return config.getInt("github.polling_interval_minutes", 0);
+    }
 }

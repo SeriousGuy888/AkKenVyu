@@ -36,15 +36,15 @@ public final class AkKenVyu extends JavaPlugin {
         playerDataManager = new PlayerDataManager(this);
 
         try {
-            githubFetcher = new GithubFetcher(this, mainConfig.getGithubRepoName(), mainConfig.getGithubFileName());
+            githubFetcher = new GithubFetcher(this,
+                    mainConfig.getGithubRepoName(),
+                    mainConfig.getGithubFileName());
         } catch (URISyntaxException e) {
             getLogger().severe(e.toString());
             getLogger().severe("Malformed URL. Cannot continue; disabling plugin.");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
-
-        githubFetcher.updateDownloadUrl();
 
 
         Objects.requireNonNull(getCommand("resourcepack"))

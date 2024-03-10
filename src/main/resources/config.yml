@@ -9,3 +9,14 @@ github:
   file_name: "resource-pack.zip"
 
 #  use_file_name_as_regex: false # If set to true, the `file_name` will instead be treated as a regex pattern.
+
+
+  # How often, in minutes, AkKenVyu will poll the GitHub repo for new releases.
+  # e.g.
+  # 30: once every 30 minutes
+  # 60: once every hour
+  # 360: once every 6 hours
+  #
+  # Set this to 0 to disable polling altogether.
+  # AkKenVyu will still always poll the GitHub repo once on server startup though.
+  polling_interval_minutes: 60
