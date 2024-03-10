@@ -1,6 +1,7 @@
 package io.github.seriousguy888.akkenvyu;
 
 import com.google.gson.*;
+import io.github.seriousguy888.akkenvyu.config.CachedDataConfig;
 import io.github.seriousguy888.akkenvyu.data.PlayerDataManager;
 import org.bukkit.Bukkit;
 import io.github.seriousguy888.akkenvyu.utils.HexStringToByteArray;
@@ -21,9 +22,6 @@ public class GithubFetcher {
     private final AkKenVyu plugin;
     private final URI apiUri;
     private final String desiredFileName;
-
-    private String downloadUrl = null;
-    private byte[] sha1Hash = null;
 
     public GithubFetcher(
             @Nonnull AkKenVyu plugin,
@@ -96,34 +94,36 @@ public class GithubFetcher {
             return;
         }
 
+        CachedDataConfig cachedDataConfig = plugin.getCachedDataConfig();
+
         for (JsonElement asset : assetsArray) {
             String fileName = asset.getAsJsonObject().get("name").getAsString();
 
             if (fileName.equals(desiredFileName)) {
                 String newDownloadUrl = asset.getAsJsonObject().get("browser_download_url").getAsString();
 
-                if (newDownloadUrl.equalsIgnoreCase(downloadUrl)) {
+                if (newDownloadUrl.equalsIgnoreCase(cachedDataConfig.getDownloadUrl())) {
                     plugin.getLogger().info("Found latest release on GitHub,"
                             + " but the download URL is the same as the current one.");
                     return;
                 }
 
-                downloadUrl = newDownloadUrl;
-                sha1Hash = null; // Reset hash (in case the hash is from a previous release)
+                cachedDataConfig.setDownloadUrl(newDownloadUrl);
+                cachedDataConfig.setHash(null); // Reset hash (in case the hash is from a previous release)
 
                 plugin.getLogger().info(
-                        "Successfully found matching resource pack file. Download URL: " + downloadUrl);
+                        "Successfully found matching resource pack file. Download URL: " + newDownloadUrl);
 
                 byte[] hash = null;
-                String hashHex = null;
+                String hashString = null;
                 String body = releaseJsonObject.get("body").getAsString();
                 if (body != null) {
-                    hashHex = body.split("\\s")[0];
+                    hashString = body.split("\\s")[0];
 
                     // convert hex string to byte array
                     // if it doesn't work, just ignore it and don't bother with the hash
                     try {
-                        hash = HexStringToByteArray.convert(hashHex);
+                        hash = HexStringToByteArray.convert(hashString);
                     } catch (IllegalArgumentException e) {
                         plugin.getLogger().warning("Error while converting resource pack hash: " + e);
                     }
@@ -131,13 +131,13 @@ public class GithubFetcher {
 
                 if (hash == null || hash.length != 20) {
                     plugin.getLogger().warning("Invalid SHA1 hash ("
-                            + hashHex + ") was provided in release. Ignoring."
+                            + hashString + ") was provided in release. Ignoring."
                             + " Players can still download the resource pack if the URL is working,"
                             + " but without the hash, they will have to redownload it each time"
                             + " they join the server, even if no changes have been made.");
                 } else {
-                    sha1Hash = hash;
-                    plugin.getLogger().info("Using SHA1 hash " + hashHex + " for resource pack.");
+                    cachedDataConfig.setHash(hashString);
+                    plugin.getLogger().info("Using SHA1 hash " + hashString + " for resource pack.");
                 }
 
                 announceUpdatedPack();
@@ -159,13 +159,4 @@ public class GithubFetcher {
             }
         });
     }
-
-    public String getDownloadUrl() {
-        return downloadUrl;
-    }
-
-    public byte[] getSha1Hash() {
-        return sha1Hash;
-    }
-
 }

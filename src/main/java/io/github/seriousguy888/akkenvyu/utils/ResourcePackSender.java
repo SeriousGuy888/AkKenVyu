@@ -5,11 +5,8 @@ import org.bukkit.entity.Player;
 
 public class ResourcePackSender {
 
-    /**
-     *
-     */
     public static void sendResourcePack(AkKenVyu plugin, Player player) {
-        String dlUrl = plugin.getGithubFetcher().getDownloadUrl();
+        String dlUrl = plugin.getCachedDataConfig().getDownloadUrl();
 
         if (dlUrl == null) {
             player.sendMessage("Cannot send you the resource pack because"
@@ -17,7 +14,7 @@ public class ResourcePackSender {
             return;
         }
 
-        byte[] hash = plugin.getGithubFetcher().getSha1Hash();
+        byte[] hash = HexStringToByteArray.convert(plugin.getCachedDataConfig().getHash());
         player.setResourcePack(dlUrl, hash, "Applying latest resource pack...", false);
     }
 }

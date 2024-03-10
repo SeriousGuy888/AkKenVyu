@@ -1,6 +1,7 @@
 package io.github.seriousguy888.akkenvyu;
 
 import io.github.seriousguy888.akkenvyu.commands.MainCommand;
+import io.github.seriousguy888.akkenvyu.config.CachedDataConfig;
 import io.github.seriousguy888.akkenvyu.config.MainConfig;
 import io.github.seriousguy888.akkenvyu.data.PlayerDataManager;
 import io.github.seriousguy888.akkenvyu.listeners.JoinAndQuitListener;
@@ -17,6 +18,7 @@ public final class AkKenVyu extends JavaPlugin {
 //    private final UUID resourcePackId = UUID.randomUUID();
 
     private MainConfig mainConfig;
+    private CachedDataConfig cachedDataConfig;
     private PlayerDataManager playerDataManager;
 
     private GithubFetcher githubFetcher;
@@ -26,6 +28,7 @@ public final class AkKenVyu extends JavaPlugin {
     public void onEnable() {
         try {
             mainConfig = new MainConfig(this, "config", true);
+            cachedDataConfig = new CachedDataConfig(this, "cache", true);
         } catch (FileNotFoundException e) {
             getLogger().severe(e.toString());
             getLogger().severe("Failed to initialise config file. Cannot continue; disabling plugin.");
@@ -54,8 +57,17 @@ public final class AkKenVyu extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new JoinAndQuitListener(this), this);
     }
 
+    @Override
+    public void onDisable() {
+        cachedDataConfig.saveToDisk();
+    }
+
     public MainConfig getMainConfig() {
         return mainConfig;
+    }
+
+    public CachedDataConfig getCachedDataConfig() {
+        return cachedDataConfig;
     }
 
     public PlayerDataManager getPlayerDataManager() {
