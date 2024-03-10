@@ -2,33 +2,33 @@ package io.github.seriousguy888.akkenvyu.commands;
 
 import io.github.seriousguy888.akkenvyu.AkKenVyu;
 import io.github.seriousguy888.akkenvyu.utils.ResourcePackSender;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
-public class GetResourcePackCommand implements CommandExecutor {
+public class EnableSubcommand extends Subcommand {
     private final AkKenVyu plugin;
 
-    public GetResourcePackCommand(AkKenVyu plugin) {
+    public EnableSubcommand(AkKenVyu plugin) {
+        super("enable", null);
         this.plugin = plugin;
     }
 
     @Override
-    public boolean onCommand(@Nonnull CommandSender sender,
-                             @Nonnull Command command,
-                             @Nonnull String label,
-                             @Nonnull String[] args) {
-
+    public void execute(CommandSender sender, String[] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage("Only players may use this command.");
-            return true;
+            return;
         }
 
         ResourcePackSender.sendResourcePack(plugin, player);
+    }
 
-        return false;
+    @Nonnull
+    @Override
+    public List<String> tabComplete(CommandSender sender, String[] args) {
+        return List.of();
     }
 }

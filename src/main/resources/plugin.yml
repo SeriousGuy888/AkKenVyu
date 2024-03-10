@@ -5,7 +5,9 @@ api-version: '1.20'
 authors: [SeriousGuy888]
 
 commands:
-  getresourcepack:
-    description: epic
-  removeresourcepack:
-    description: epique
+  resourcepack:
+    description: oihjgodfihjlsdgk
+    aliases:
+      - rp
+      - resources
+      - pack

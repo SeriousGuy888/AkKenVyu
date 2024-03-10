@@ -1,7 +1,6 @@
 package io.github.seriousguy888.akkenvyu;
 
-import io.github.seriousguy888.akkenvyu.commands.GetResourcePackCommand;
-import io.github.seriousguy888.akkenvyu.commands.RemoveResourcePackCommand;
+import io.github.seriousguy888.akkenvyu.commands.MainCommand;
 import io.github.seriousguy888.akkenvyu.config.MainConfig;
 import io.github.seriousguy888.akkenvyu.data.PlayerDataManager;
 import io.github.seriousguy888.akkenvyu.listeners.JoinAndQuitListener;
@@ -12,7 +11,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.Objects;
-import java.util.UUID;
 
 public final class AkKenVyu extends JavaPlugin {
     // resource pack ids haven't been added yet in 1.20.2
@@ -49,10 +47,8 @@ public final class AkKenVyu extends JavaPlugin {
         githubFetcher.updateDownloadUrl();
 
 
-        Objects.requireNonNull(getCommand("getresourcepack"))
-                .setExecutor(new GetResourcePackCommand(this));
-        Objects.requireNonNull(getCommand("removeresourcepack"))
-                .setExecutor(new RemoveResourcePackCommand());
+        Objects.requireNonNull(getCommand("resourcepack"))
+                .setExecutor(new MainCommand(this));
 
         getServer().getPluginManager().registerEvents(new ResourcePackStatusListener(this), this);
         getServer().getPluginManager().registerEvents(new JoinAndQuitListener(this), this);
