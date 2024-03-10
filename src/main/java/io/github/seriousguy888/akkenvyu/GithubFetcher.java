@@ -154,8 +154,10 @@ public class GithubFetcher {
         PlayerDataManager pdm = plugin.getPlayerDataManager();
         Bukkit.getOnlinePlayers().forEach(player -> {
             if (pdm.getPlayerData(player).isResourcePackEnabled()) {
-                player.sendMessage(ChatColor.GREEN + "\n---\nA new version of the server resource pack is available."
-                        + " Relog or use '/rp enable' to update.\n---\n");
+                player.sendMessage(ChatColor.GREEN + "\n\nA new version of the server resource pack is available."
+                        + " Relog or use '/rp' to update.");
+                player.sendMessage(""); // can't have new lines at the end of a message, apparently
+                player.sendMessage("");
             }
         });
     }

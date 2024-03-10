@@ -31,13 +31,9 @@ public class MainCommand implements TabExecutor {
                              @Nonnull Command command,
                              @Nonnull String label,
                              @Nonnull String[] args) {
-        if (args.length == 0) {
-            sender.sendMessage("Subcommands: "
-                    + subcommands.stream().map(Subcommand::getName).collect(Collectors.joining(", ")));
-            return true;
-        }
 
-        String subcommandName = args[0];
+        // Use the "load" subcommand if none is specified
+        String subcommandName = args.length >= 1 ? args[0] : "load";
         Subcommand subcommand = getSubcommand(subcommandName);
 
         if (subcommand == null) {
@@ -90,6 +86,9 @@ public class MainCommand implements TabExecutor {
     }
 
     private String[] removeFirstArg(String[] args) {
+        if(args.length < 1) {
+            return args;
+        }
         return Arrays.copyOfRange(args, 1, args.length);
     }
 }
