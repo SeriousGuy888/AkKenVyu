@@ -33,11 +33,18 @@ public class GithubFetcher {
 
 
         // Periodically poll the GitHub repo for new updates to the resource pack.
-        long intervalTicks = plugin.getMainConfig().getGithubPollingIntervalMinutes() * 60 * 20L;
+        int intervalMinutes = plugin.getMainConfig().getGithubPollingIntervalMinutes();
+        long intervalTicks = intervalMinutes * 60 * 20L;
         // If the config option is set to 0, only run it once; otherwise, run it once per this interval.
         if (intervalTicks == 0) {
+            plugin.getLogger().info(
+                    "Periodic polling is disabled. Only polling for resource pack updates once at startup.");
+
             Bukkit.getScheduler().runTaskAsynchronously(plugin, this::pollForUpdates);
         } else {
+            plugin.getLogger().info("AkKenVyu will poll " + githubRepo
+                    + " for resource pack updates every " + intervalMinutes + " minutes.");
+
             Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, this::pollForUpdates, 0, intervalTicks);
         }
     }
