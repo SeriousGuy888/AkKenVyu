@@ -1,5 +1,6 @@
 package io.github.seriousguy888.akkenvyu.commands;
 
+import io.github.seriousguy888.akkenvyu.AkKenVyu;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,8 +11,12 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class DisableSubcommand extends Subcommand {
-    protected DisableSubcommand() {
+    private final AkKenVyu plugin;
+
+    protected DisableSubcommand(AkKenVyu plugin) {
         super("disable", null);
+
+        this.plugin = plugin;
     }
 
     @Override
@@ -23,6 +28,7 @@ public class DisableSubcommand extends Subcommand {
 
         // the removeResourcePacks() method doesn't exist in 1.20.2
         player.setResourcePack("");
+        plugin.getPlayerDataManager().getPlayerData(player).setResourcePackEnabled(false);
     }
 
     @Nonnull

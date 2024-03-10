@@ -24,6 +24,7 @@ public class EnableSubcommand extends Subcommand {
         }
 
         ResourcePackSender.sendResourcePack(plugin, player);
+        plugin.getPlayerDataManager().getPlayerData(player).setResourcePackEnabled(true);
     }
 
     @Nonnull
