@@ -20,17 +20,20 @@ public class GetResourcePackCommand implements CommandExecutor {
                              @Nonnull Command command,
                              @Nonnull String label,
                              @Nonnull String[] args) {
+
         if (!(sender instanceof Player player)) {
+            sender.sendMessage("Only players may use this command.");
             return true;
         }
 
-        String url = plugin.getConfig().getString("resource_pack.url");
-        if (url == null) {
-            sender.sendMessage("The resource pack URL is missing from the config.yml.");
+        String dlUrl = plugin.getGithubFetcher().getDownloadUrl();
+
+        if (dlUrl == null) {
+            player.sendMessage("The resource pack download URL is currently unavailable for some reason.");
             return false;
         }
 
-        player.setResourcePack(url, null, "Resource pack from " + url, false);
+        player.setResourcePack(dlUrl, null, "Applying latest resource pack...", false);
 
         return false;
     }

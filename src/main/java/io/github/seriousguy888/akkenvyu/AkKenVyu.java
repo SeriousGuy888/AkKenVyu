@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -15,6 +16,8 @@ public final class AkKenVyu extends JavaPlugin {
 //    private final UUID resourcePackId = UUID.randomUUID();
 
     private MainConfig mainConfig;
+
+    private GithubFetcher githubFetcher;
 
 
     @Override
@@ -28,16 +31,29 @@ public final class AkKenVyu extends JavaPlugin {
             return;
         }
 
+        try {
+            githubFetcher = new GithubFetcher(this, mainConfig.getGithubRepoName(), mainConfig.getGithubFileName());
+        } catch (URISyntaxException e) {
+            getLogger().severe(e.toString());
+            getLogger().severe("Malformed URL. Cannot continue; disabling plugin.");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        githubFetcher.updateDownloadUrl();
+
+
         Objects.requireNonNull(getCommand("getresourcepack"))
                 .setExecutor(new GetResourcePackCommand(this));
 
         getServer().getPluginManager().registerEvents(new ResourcePackStatusListener(this), this);
-
-        getServer().broadcastMessage("Repo: " + mainConfig.getGithubRepoName());
-        getServer().broadcastMessage("Looking for a file named: " + mainConfig.getGithubFileName());
     }
 
     public MainConfig getMainConfig() {
         return mainConfig;
+    }
+
+    public GithubFetcher getGithubFetcher() {
+        return githubFetcher;
     }
 }
