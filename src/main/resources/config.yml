@@ -1,6 +1,3 @@
-resource_pack:
-  url: ""
-
 # Info relevant to fetching the resource pack from GitHub
 github:
   # The name of a PUBLIC GitHub repository in the format of [owner]/[repo].
