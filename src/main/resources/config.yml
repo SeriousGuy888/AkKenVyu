@@ -1,2 +1,14 @@
 resource_pack:
   url: ""
+
+# Info relevant to fetching the resource pack from GitHub
+github:
+  # The name of a PUBLIC GitHub repository in the format of [owner]/[repo].
+  # For example, the repo at "https://github.com/SeriousGuy888/AkKenVyu" is "SeriousGuy888/AkKenVyu"
+  repo_name: ""
+
+  # What the attached resource pack is named in the GitHub releases.
+  # AkKenVyu will look for a file matching this name to serve to players as the resource pack.
+  file_name: "resource-pack.zip"
+
+#  use_file_name_as_regex: false # If set to true, the `file_name` will instead be treated as a regex pattern.
