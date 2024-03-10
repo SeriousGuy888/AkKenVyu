@@ -23,10 +23,7 @@ public class JoinAndQuitListener implements Listener {
         PlayerData playerData = plugin.getPlayerDataManager().getPlayerData(player);
 
         if (playerData.isResourcePackEnabled()) {
-            player.sendMessage("You have the resource pack enabled.");
             ResourcePackSender.sendResourcePack(plugin, player);
-        } else {
-            player.sendMessage("You have the resource pack disabled.");
         }
     }
 
