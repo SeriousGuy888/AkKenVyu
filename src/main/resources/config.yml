@@ -17,6 +17,6 @@ github:
   # 60: once every hour
   # 360: once every 6 hours
   #
-  # Set this to 0 to disable polling altogether.
+  # Set this to 0 to disable periodic polling altogether.
   # AkKenVyu will still always poll the GitHub repo once on server startup though.
   polling_interval_minutes: 60
