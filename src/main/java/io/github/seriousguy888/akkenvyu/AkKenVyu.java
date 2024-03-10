@@ -1,6 +1,7 @@
 package io.github.seriousguy888.akkenvyu;
 
 import io.github.seriousguy888.akkenvyu.commands.GetResourcePackCommand;
+import io.github.seriousguy888.akkenvyu.commands.RemoveResourcePackCommand;
 import io.github.seriousguy888.akkenvyu.config.MainConfig;
 import io.github.seriousguy888.akkenvyu.listeners.ResourcePackStatusListener;
 import org.bukkit.Bukkit;
@@ -45,6 +46,8 @@ public final class AkKenVyu extends JavaPlugin {
 
         Objects.requireNonNull(getCommand("getresourcepack"))
                 .setExecutor(new GetResourcePackCommand(this));
+        Objects.requireNonNull(getCommand("removeresourcepack"))
+                .setExecutor(new RemoveResourcePackCommand());
 
         getServer().getPluginManager().registerEvents(new ResourcePackStatusListener(this), this);
     }

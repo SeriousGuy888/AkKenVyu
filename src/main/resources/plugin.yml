@@ -7,3 +7,5 @@ authors: [SeriousGuy888]
 commands:
   getresourcepack:
     description: epic
+  removeresourcepack:
+    description: epique
