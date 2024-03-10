@@ -20,10 +20,3 @@ commands:
 permissions:
   akkenvyu.command.resourcepack:
     default: op
-    children:
-      akkenvyu.command.resourcepack.enable: true
-      akkenvyu.command.resourcepack.disable: true
-  akkenvyu.command.resourcepack.enable:
-    default: op
-  akkenvyu.command.resourcepack.disable:
-    default: op
