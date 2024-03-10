@@ -1,6 +1,7 @@
 package io.github.seriousguy888.akkenvyu.commands;
 
 import io.github.seriousguy888.akkenvyu.AkKenVyu;
+import io.github.seriousguy888.akkenvyu.utils.ResourcePackSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,15 +27,7 @@ public class GetResourcePackCommand implements CommandExecutor {
             return true;
         }
 
-        String dlUrl = plugin.getGithubFetcher().getDownloadUrl();
-
-        if (dlUrl == null) {
-            player.sendMessage("The resource pack download URL is currently unavailable for some reason.");
-            return false;
-        }
-
-        byte[] hash = plugin.getGithubFetcher().getSha1Hash();
-        player.setResourcePack(dlUrl, hash, "Applying latest resource pack...", false);
+        ResourcePackSender.sendResourcePack(plugin, player);
 
         return false;
     }

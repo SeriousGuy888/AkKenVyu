@@ -3,6 +3,8 @@ package io.github.seriousguy888.akkenvyu;
 import io.github.seriousguy888.akkenvyu.commands.GetResourcePackCommand;
 import io.github.seriousguy888.akkenvyu.commands.RemoveResourcePackCommand;
 import io.github.seriousguy888.akkenvyu.config.MainConfig;
+import io.github.seriousguy888.akkenvyu.data.PlayerDataManager;
+import io.github.seriousguy888.akkenvyu.listeners.JoinAndQuitListener;
 import io.github.seriousguy888.akkenvyu.listeners.ResourcePackStatusListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,6 +19,7 @@ public final class AkKenVyu extends JavaPlugin {
 //    private final UUID resourcePackId = UUID.randomUUID();
 
     private MainConfig mainConfig;
+    private PlayerDataManager playerDataManager;
 
     private GithubFetcher githubFetcher;
 
@@ -31,6 +34,8 @@ public final class AkKenVyu extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
+
+        playerDataManager = new PlayerDataManager(this);
 
         try {
             githubFetcher = new GithubFetcher(this, mainConfig.getGithubRepoName(), mainConfig.getGithubFileName());
@@ -50,10 +55,15 @@ public final class AkKenVyu extends JavaPlugin {
                 .setExecutor(new RemoveResourcePackCommand());
 
         getServer().getPluginManager().registerEvents(new ResourcePackStatusListener(this), this);
+        getServer().getPluginManager().registerEvents(new JoinAndQuitListener(this), this);
     }
 
     public MainConfig getMainConfig() {
         return mainConfig;
+    }
+
+    public PlayerDataManager getPlayerDataManager() {
+        return playerDataManager;
     }
 
     public GithubFetcher getGithubFetcher() {
