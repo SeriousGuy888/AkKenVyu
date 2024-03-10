@@ -14,7 +14,7 @@ public class DisableSubcommand extends Subcommand {
     private final AkKenVyu plugin;
 
     protected DisableSubcommand(AkKenVyu plugin) {
-        super("disable", null);
+        super("disable", "akkenvyu.command.resourcepack.disable");
 
         this.plugin = plugin;
     }

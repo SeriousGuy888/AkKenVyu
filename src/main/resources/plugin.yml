@@ -1,13 +1,29 @@
 name: AkKenVyu
+description: Serve players (who opt in) with the latest version of a resource pack from a GitHub repo.
+author: SeriousGuy888
+website: https://github.com/SeriousGuy888/AkKenVyu
+
 version: '${project.version}'
-main: io.github.seriousguy888.akkenvyu.AkKenVyu
 api-version: '1.20'
-authors: [SeriousGuy888]
+main: io.github.seriousguy888.akkenvyu.AkKenVyu
 
 commands:
   resourcepack:
-    description: oihjgodfihjlsdgk
+    permission: akkenvyu.command.resourcepack
+    permission-message: Insufficient permission. Ask an admin to give you the permission for this command.
+    description: Toggles whether the server will send you the server resource pack.
     aliases:
       - rp
       - resources
       - pack
+
+permissions:
+  akkenvyu.command.resourcepack:
+    default: op
+    children:
+      akkenvyu.command.resourcepack.enable: true
+      akkenvyu.command.resourcepack.disable: true
+  akkenvyu.command.resourcepack.enable:
+    default: op
+  akkenvyu.command.resourcepack.disable:
+    default: op

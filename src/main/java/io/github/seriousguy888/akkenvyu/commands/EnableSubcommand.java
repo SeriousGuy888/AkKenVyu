@@ -12,7 +12,7 @@ public class EnableSubcommand extends Subcommand {
     private final AkKenVyu plugin;
 
     public EnableSubcommand(AkKenVyu plugin) {
-        super("enable", null);
+        super("enable", "akkenvyu.command.resourcepack.enable");
         this.plugin = plugin;
     }
 
