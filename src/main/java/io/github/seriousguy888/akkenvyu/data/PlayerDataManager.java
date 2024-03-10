@@ -1,6 +1,7 @@
 package io.github.seriousguy888.akkenvyu.data;
 
 import io.github.seriousguy888.akkenvyu.AkKenVyu;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -22,6 +23,12 @@ public class PlayerDataManager {
         playerDataFolder = new File(plugin.getDataFolder().getAbsolutePath(), "playerdata");
         if (!playerDataFolder.exists()) {
             boolean ignored = playerDataFolder.mkdirs();
+        }
+
+        // Just in case the plugin is reloaded while players are online,
+        // load the data of all players currently online.
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            getPlayerData(player);
         }
     }
 

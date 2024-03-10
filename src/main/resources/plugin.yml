@@ -20,3 +20,5 @@ commands:
 permissions:
   akkenvyu.command.resourcepack:
     default: op
+  akkenvyu.command.check_for_updates:
+    default: op

@@ -23,6 +23,7 @@ public class MainCommand implements TabExecutor {
         subcommands = new ArrayList<>();
         subcommands.add(new EnableSubcommand(plugin));
         subcommands.add(new DisableSubcommand(plugin));
+        subcommands.add(new CheckForUpdatesSubcommand(plugin));
     }
 
     @Override

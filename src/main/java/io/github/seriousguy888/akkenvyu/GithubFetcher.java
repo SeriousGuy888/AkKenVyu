@@ -1,8 +1,10 @@
 package io.github.seriousguy888.akkenvyu;
 
 import com.google.gson.*;
+import io.github.seriousguy888.akkenvyu.data.PlayerDataManager;
 import org.bukkit.Bukkit;
 import io.github.seriousguy888.akkenvyu.utils.HexStringToByteArray;
+import org.bukkit.ChatColor;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -40,13 +42,17 @@ public class GithubFetcher {
             plugin.getLogger().info(
                     "Periodic polling is disabled. Only polling for resource pack updates once at startup.");
 
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, this::pollForUpdates);
+            pollForUpdatesAsync();
         } else {
             plugin.getLogger().info("AkKenVyu will poll " + githubRepo
                     + " for resource pack updates every " + intervalMinutes + " minutes.");
 
             Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, this::pollForUpdates, 0, intervalTicks);
         }
+    }
+
+    public void pollForUpdatesAsync() {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, this::pollForUpdates);
     }
 
     private void pollForUpdates() {
@@ -94,7 +100,15 @@ public class GithubFetcher {
             String fileName = asset.getAsJsonObject().get("name").getAsString();
 
             if (fileName.equals(desiredFileName)) {
-                downloadUrl = asset.getAsJsonObject().get("browser_download_url").getAsString();
+                String newDownloadUrl = asset.getAsJsonObject().get("browser_download_url").getAsString();
+
+                if (newDownloadUrl.equalsIgnoreCase(downloadUrl)) {
+                    plugin.getLogger().info("Found latest release on GitHub,"
+                            + " but the download URL is the same as the current one.");
+                    return;
+                }
+
+                downloadUrl = newDownloadUrl;
                 sha1Hash = null; // Reset hash (in case the hash is from a previous release)
 
                 plugin.getLogger().info(
@@ -126,12 +140,24 @@ public class GithubFetcher {
                     plugin.getLogger().info("Using SHA1 hash " + hashHex + " for resource pack.");
                 }
 
+                announceUpdatedPack();
+
                 return;
             }
         }
 
         plugin.getLogger().severe(
                 "GitHub release contained no file with a name that matches `" + desiredFileName + "`");
+    }
+
+    private void announceUpdatedPack() {
+        PlayerDataManager pdm = plugin.getPlayerDataManager();
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if (pdm.getPlayerData(player).isResourcePackEnabled()) {
+                player.sendMessage(ChatColor.GREEN + "\n---\nA new version of the server resource pack is available."
+                        + " Relog or use '/rp enable' to update.\n---\n");
+            }
+        });
     }
 
     public String getDownloadUrl() {
