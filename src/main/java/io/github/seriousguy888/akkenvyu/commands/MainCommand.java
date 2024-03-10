@@ -21,8 +21,8 @@ public class MainCommand implements TabExecutor {
         this.plugin = plugin;
 
         subcommands = new ArrayList<>();
-        subcommands.add(new EnableSubcommand(plugin));
-        subcommands.add(new DisableSubcommand(plugin));
+        subcommands.add(new LoadSubcommand(plugin));
+        subcommands.add(new UnloadSubcommand(plugin));
         subcommands.add(new CheckForUpdatesSubcommand(plugin));
     }
 

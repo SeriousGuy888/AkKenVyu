@@ -1,20 +1,17 @@
 package io.github.seriousguy888.akkenvyu.commands;
 
 import io.github.seriousguy888.akkenvyu.AkKenVyu;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
-public class DisableSubcommand extends Subcommand {
+public class UnloadSubcommand extends Subcommand {
     private final AkKenVyu plugin;
 
-    protected DisableSubcommand(AkKenVyu plugin) {
-        super("disable", null);
+    protected UnloadSubcommand(AkKenVyu plugin) {
+        super("unload", null);
 
         this.plugin = plugin;
     }

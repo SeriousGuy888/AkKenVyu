@@ -8,11 +8,11 @@ import org.bukkit.entity.Player;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class EnableSubcommand extends Subcommand {
+public class LoadSubcommand extends Subcommand {
     private final AkKenVyu plugin;
 
-    public EnableSubcommand(AkKenVyu plugin) {
-        super("enable", null);
+    public LoadSubcommand(AkKenVyu plugin) {
+        super("load", null);
         this.plugin = plugin;
     }
 
