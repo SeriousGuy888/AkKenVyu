@@ -16,9 +16,15 @@ commands:
       - rp
       - resources
       - pack
+  customitem:
+    permission: akkenvyu.command.customitem
+    aliases:
+      - ci
 
 permissions:
   akkenvyu.command.resourcepack:
     default: op
   akkenvyu.command.check_for_updates:
+    default: op
+  akkenvyu.command.customitem:
     default: op

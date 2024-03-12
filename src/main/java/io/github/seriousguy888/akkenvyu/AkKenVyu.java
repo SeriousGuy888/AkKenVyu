@@ -1,10 +1,13 @@
 package io.github.seriousguy888.akkenvyu;
 
+import io.github.seriousguy888.akkenvyu.commands.customitem.CustomItemCommand;
 import io.github.seriousguy888.akkenvyu.commands.MainCommand;
 import io.github.seriousguy888.akkenvyu.config.CachedDataConfig;
 import io.github.seriousguy888.akkenvyu.config.MainConfig;
+import io.github.seriousguy888.akkenvyu.config.SavedItemsConfig;
 import io.github.seriousguy888.akkenvyu.data.PlayerDataManager;
 import io.github.seriousguy888.akkenvyu.listeners.JoinAndQuitListener;
+import io.github.seriousguy888.akkenvyu.listeners.ProtectedItemListener;
 import io.github.seriousguy888.akkenvyu.listeners.ResourcePackStatusListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,8 +22,9 @@ public final class AkKenVyu extends JavaPlugin {
 
     private MainConfig mainConfig;
     private CachedDataConfig cachedDataConfig;
-    private PlayerDataManager playerDataManager;
+    private SavedItemsConfig savedItemsConfig;
 
+    private PlayerDataManager playerDataManager;
     private GithubFetcher githubFetcher;
 
 
@@ -29,9 +33,10 @@ public final class AkKenVyu extends JavaPlugin {
         try {
             mainConfig = new MainConfig(this, "config", true);
             cachedDataConfig = new CachedDataConfig(this, "cache", true);
+            savedItemsConfig = new SavedItemsConfig(this, "saved_items", false);
         } catch (FileNotFoundException e) {
             getLogger().severe(e.toString());
-            getLogger().severe("Failed to initialise config file. Cannot continue; disabling plugin.");
+            getLogger().severe("Failed to initialise a config file. Cannot continue; disabling plugin.");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
@@ -52,14 +57,19 @@ public final class AkKenVyu extends JavaPlugin {
 
         Objects.requireNonNull(getCommand("resourcepack"))
                 .setExecutor(new MainCommand(this));
+        Objects.requireNonNull(getCommand("customitem"))
+                .setExecutor(new CustomItemCommand(this));
+
 
         getServer().getPluginManager().registerEvents(new ResourcePackStatusListener(this), this);
+        getServer().getPluginManager().registerEvents(new ProtectedItemListener(this), this);
         getServer().getPluginManager().registerEvents(new JoinAndQuitListener(this), this);
     }
 
     @Override
     public void onDisable() {
         cachedDataConfig.saveToDisk();
+        savedItemsConfig.saveToDisk();
     }
 
     public MainConfig getMainConfig() {
@@ -68,6 +78,10 @@ public final class AkKenVyu extends JavaPlugin {
 
     public CachedDataConfig getCachedDataConfig() {
         return cachedDataConfig;
+    }
+
+    public SavedItemsConfig getSavedItemsConfig() {
+        return savedItemsConfig;
     }
 
     public PlayerDataManager getPlayerDataManager() {
