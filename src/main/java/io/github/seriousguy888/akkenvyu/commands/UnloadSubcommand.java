@@ -24,6 +24,7 @@ public class UnloadSubcommand extends Subcommand {
             return;
         }
 
+        sender.sendMessage("Unloading the server resource pack...");
         ResourcePackSender.unloadResourcePack(plugin, player);
         plugin.getPlayerDataManager().getPlayerData(player).setResourcePackEnabled(false);
     }
