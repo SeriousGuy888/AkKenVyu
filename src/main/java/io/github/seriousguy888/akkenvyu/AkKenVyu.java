@@ -12,11 +12,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.Objects;
+import java.util.UUID;
 
 public final class AkKenVyu extends JavaPlugin {
-    // resource pack ids haven't been added yet in 1.20.2
-//    private final UUID resourcePackId = UUID.randomUUID();
-
     private MainConfig mainConfig;
     private CachedDataConfig cachedDataConfig;
     private PlayerDataManager playerDataManager;
