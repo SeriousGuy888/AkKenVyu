@@ -1,6 +1,7 @@
 package io.github.seriousguy888.akkenvyu.utils;
 
 import io.github.seriousguy888.akkenvyu.AkKenVyu;
+import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 
 public class ResourcePackSender {
@@ -15,11 +16,19 @@ public class ResourcePackSender {
         }
 
         byte[] hash = HexStringToByteArray.convert(plugin.getCachedDataConfig().getHash());
-        if(hash.length != 20) {
+        if (hash.length != 20) {
             // The hash must be 20 bytes long, and it will throw an error otherwise.
             hash = null;
         }
 
-        player.setResourcePack(dlUrl, hash, "Applying latest resource pack...", false);
+        player.setResourcePack(plugin.getCachedDataConfig().getPackUuid(),
+                dlUrl,
+                hash,
+                Component.text("Applying latest resource pack..."),
+                false);
+    }
+
+    public static void unloadResourcePack(AkKenVyu plugin, Player player) {
+        player.removeResourcePack(plugin.getCachedDataConfig().getPackUuid());
     }
 }

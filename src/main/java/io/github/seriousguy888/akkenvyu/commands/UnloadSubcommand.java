@@ -1,6 +1,7 @@
 package io.github.seriousguy888.akkenvyu.commands;
 
 import io.github.seriousguy888.akkenvyu.AkKenVyu;
+import io.github.seriousguy888.akkenvyu.utils.ResourcePackSender;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -23,8 +24,7 @@ public class UnloadSubcommand extends Subcommand {
             return;
         }
 
-        // the removeResourcePacks() method doesn't exist in 1.20.2
-        player.setResourcePack("");
+        ResourcePackSender.unloadResourcePack(plugin, player);
         plugin.getPlayerDataManager().getPlayerData(player).setResourcePackEnabled(false);
     }
 
